@@ -17,7 +17,10 @@
         constructor(props){
           super(props);
           this.state = { items: [], complete: 0, nextID: 0 }
+          this.items = this.items.bind(this);
+          this.addItem = this.addItem.bind(this);
         }
+        addItem
         render(){
           return( <div className='center container'>
                     <h1>To Do</h1>
