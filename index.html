@@ -23,7 +23,7 @@
         items(){
           let items = [];
           this.state.items.map( item => {
-            items.push(<Item key={`item-${item.id}`} name={item.name} complete={item.complete} id={item.id} />);
+            items.push(<Item key={`item-${item.id}`} {...item} />);
           });
           return items;
         }
