@@ -13,7 +13,26 @@
   <body>
     <div id='content' class='container'></div>
     <script type="text/babel">
-      //React Code goes here
+      class List extends React.Component{
+        constructor(props){
+          super(props);
+          this.state = { items: [], complete: 0, nextID: 0 }
+        }
+        render(){
+          return( <div className='center container'>
+                    <h1>To Do</h1>
+                    <form onSubmit={this.addItem}
+                      <input placeholder='add item' type='text' ref='name' />
+                    </form>
+                    <hr />
+                    <div className='row'>
+                    {this.items()}
+                    </div>
+                  </div>);
+        }
+      }
+
+      ReactDOM.render(<List />, document.getElementById('content'));
     </script>
   </body>
 </html>
