@@ -20,7 +20,23 @@
           this.items = this.items.bind(this);
           this.addItem = this.addItem.bind(this);
         }
-        addItem
+        items(){
+          let items = [];
+          this.state.items.map( item => {
+            items.push(<p>{item.name}</p>)
+          });
+          return items;
+        }
+        nextID(id){
+          return id += 1;
+        }
+        addItem(e){
+          e.preventDefault();
+          let items = this.state.items;
+          items.unshift({ name: this.refs.name.value, complete: false, id: this.state.nextID});
+          this.refs.name.value = null;
+          this.setState({ items: items, nextID: this.nextID(this.state.nextID) });
+        }
         render(){
           return( <div className='center container'>
                     <h1>To Do</h1>
