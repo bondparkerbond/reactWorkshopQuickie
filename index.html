@@ -54,15 +54,29 @@
       class Item extends React.Component{
         constructor(props){
           super(props);
+          this.state = { checked: false, style: {} };
+          this.toggleChecked = this.toggleChecked.bind(this);
+        }
+        toggleChecked(){
+          let complete = !this.state.checked;
+          let style = {};
+          if (complete) {
+            style = {
+              textDecoration: 'line-through',
+              color: 'grey'
+            }
+          }
+          this.setState({ checked: complete, style: style });
         }
         render(){
           let id = `complete-${this.props.id}`;
-          return( <div className='col s12'>
-                    <div className='col m8'>
+          let color = this.state.checked ? 'green lighten-5' : 'grey lighten-5';
+          return( <div className=(`${color} col s12`)>
+                    <div className='col m8' style={this.state.style}>
                       {this.props.name}
                     </div>
                     <div className='col m3'>
-                      <input type='checkbox' id={id} defaultChecked={this.props.checked} />
+                      <input onChange={this.toggleChecked} type='checkbox' id={id} defaultChecked={this.props.checked} />
                       <label htmlFor={id}>Complete?</label>
                     </div>
                     <div className='col m1'>
