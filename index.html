@@ -19,11 +19,41 @@
           this.state = { items: [], complete: 0, nextID: 0 }
           this.items = this.items.bind(this);
           this.addItem = this.addItem.bind(this);
+          this.completeCount = this.completeCount.bind(this);
+          this.refreshCount = this.refreshCount.bind(this);
+          this.deleteItem = this.deleteItem.bind(this);
+        }
+        completeCount(){
+          let complete = this.state.complete;
+          return(<p>{`${complete}/${this.state.items.length} complete`}</p>);
+        }
+        refreshCount(id, checked) {
+          let itemArray = this.state.items;
+          let index = itemArray.findIndex( x => x.id === id);
+          let item = itemArray.splice(index, 1)[0];
+          item.complete = checked;
+          let complete = this.state.complete;
+          if (checked) {
+            itemArray.push(item);
+            complete++;
+          } else {
+            itemArray.unshift(item);
+            complete--;
+          }
+          this.setState({ complete: complete, items: itemArray });
+        }
+        deleteItem(id){
+          let itemArray = this.state.items;
+          let index = itemArray.findIndex( x => x.id === id);
+          let checked = itemArray[index].complete;
+          let complete = checked ? (this.state.complete - 1) : this.state.complete;
+          itemArray.splice(index, 1);
+          this.setState({ items: itemArray, complete: complete, nextID: this.nextID(this.state.nextID)});
         }
         items(){
           let items = [];
           this.state.items.map( item => {
-            items.push(<Item key={`item-${item.id}`} {...item} />);
+            items.push(<Item key={`item-${item.id}`} {...item} deleteItem={this.deleteItem} refreshCount={this.refreshCount} />);
           });
           return items;
         }
@@ -45,7 +75,7 @@
                     </form>
                     <hr />
                     <div className='row'>
-                    {this.items()}
+                      {this.items()}
                     </div>
                   </div>);
         }
@@ -67,11 +97,12 @@
             }
           }
           this.setState({ checked: complete, style: style });
+          this.props.refreshCount(this.props.id, complete);
         }
         render(){
           let id = `complete-${this.props.id}`;
           let color = this.state.checked ? 'green lighten-5' : 'grey lighten-5';
-          return( <div className=(`${color} col s12`)>
+          return( <div className={`${color} col s12`}>
                     <div className='col m8' style={this.state.style}>
                       {this.props.name}
                     </div>
@@ -82,7 +113,7 @@
                     <div className='col m1'>
                       X
                     </div>
-                  </div>)
+                  </div>);
         }
       }
 
