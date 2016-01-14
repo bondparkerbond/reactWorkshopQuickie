@@ -110,7 +110,7 @@
                       <input onChange={this.toggleChecked} type='checkbox' id={id} defaultChecked={this.props.checked} />
                       <label htmlFor={id}>Complete?</label>
                     </div>
-                    <div className='col m1'>
+                    <div onClick={() => this.props.deleteItem(this.props.id)} className='col m1'>
                       X
                     </div>
                   </div>);
